@@ -9,6 +9,6 @@ app.use("/favicon.ico", serveStatic({ path: "./favicon.ico" }));
 app.route("/", optimizeRouter);
 
 export default {
-  port: 3000,
+  port: 3001,
   fetch: app.fetch,
 };
