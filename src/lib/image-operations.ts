@@ -1,6 +1,26 @@
+import { Buffer } from "node:buffer";
+
 type OperationKey = "width" | "height" | "format" | "quality";
 
 type OperationMap = Readonly<Record<string, string>>;
+
+type BlurPlaceholderOperations = Readonly<{
+  width: string;
+  quality: string;
+  blur: string;
+  format: string;
+}>;
+
+const PLACEHOLDER_PARAM = "placeholder";
+const PLACEHOLDER_TYPE_BLUR = "blur";
+const PLACEHOLDER_WIDTH_PARAM = "pw";
+const PLACEHOLDER_QUALITY_PARAM = "pq";
+const PLACEHOLDER_BLUR_PARAM = "pb";
+
+const DEFAULT_PLACEHOLDER_WIDTH = "24";
+const DEFAULT_PLACEHOLDER_QUALITY = "35";
+const DEFAULT_PLACEHOLDER_BLUR = "35";
+const DEFAULT_PLACEHOLDER_FORMAT = "webp";
 
 /**
  * Extracts supported IPX operations from query parameters.
@@ -58,11 +78,49 @@ function cloneToArrayBuffer(data: Uint8Array): ArrayBuffer {
   return buffer;
 }
 
+/**
+ * Builds IPX operations tailored for blur placeholders.
+ */
+function buildBlurPlaceholderOperations(
+  searchParams: URLSearchParams,
+): BlurPlaceholderOperations {
+  const width =
+    searchParams.get(PLACEHOLDER_WIDTH_PARAM) ?? DEFAULT_PLACEHOLDER_WIDTH;
+  const quality =
+    searchParams.get(PLACEHOLDER_QUALITY_PARAM) ?? DEFAULT_PLACEHOLDER_QUALITY;
+  const blur =
+    searchParams.get(PLACEHOLDER_BLUR_PARAM) ?? DEFAULT_PLACEHOLDER_BLUR;
+  const format = searchParams.get("format") ?? DEFAULT_PLACEHOLDER_FORMAT;
+
+  return {
+    width,
+    quality,
+    blur,
+    format,
+  };
+}
+
+/**
+ * Encodes binary data into a data URL suitable for inline usage.
+ */
+function encodeDataUrl(data: Uint8Array, mimeType: string): string {
+  const base64 = Buffer.from(data).toString("base64");
+  return `data:${mimeType};base64,${base64}`;
+}
+
 export {
   type OperationKey,
   type OperationMap,
+  type BlurPlaceholderOperations,
   buildOperations,
+  buildBlurPlaceholderOperations,
   hasOperationParams,
   ensureUint8Array,
   cloneToArrayBuffer,
+  encodeDataUrl,
+  PLACEHOLDER_PARAM,
+  PLACEHOLDER_TYPE_BLUR,
+  PLACEHOLDER_WIDTH_PARAM,
+  PLACEHOLDER_QUALITY_PARAM,
+  PLACEHOLDER_BLUR_PARAM,
 };
