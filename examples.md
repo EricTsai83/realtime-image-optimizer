@@ -46,13 +46,77 @@ http://localhost:3001/optimize/_/demo-image.jpg?h=600
 
 ### 4. 同時調整寬度和高度
 
+**重要說明：** 當同時設置 `w` 和 `h` 時，默認行為是**保持寬高比**（`fit=inside`）。這意味著圖像會被縮放到適合指定的尺寸範圍內，但不會精確匹配到 800x600。如果原始圖像是正方形（例如 1000x1000），結果可能是 800x800 而不是 800x600。
+
 ```bash
-# 寬度 800px，高度 600px
+# 寬度 800px，高度 600px（保持寬高比，可能不會精確匹配）
 curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600"
 
 # 瀏覽器訪問
 http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600
 ```
+
+**如果需要精確尺寸，請使用 `fit` 參數：**
+
+#### 4.1. 使用 `fit=fill`（拉伸到精確尺寸，可能變形）
+
+```bash
+# 強制拉伸到 800x600，不保持寬高比
+curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill"
+
+# 瀏覽器訪問
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill
+```
+
+#### 4.2. 使用 `fit=cover`（裁剪以填充整個區域，保持寬高比）
+
+```bash
+# 裁剪圖像以填充 800x600，保持寬高比
+curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover"
+
+# 瀏覽器訪問
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover
+```
+
+#### 4.3. 使用 `fit=contain`（完全包含在區域內，保持寬高比）
+
+```bash
+# 圖像完全包含在 800x600 內，保持寬高比，可能有空白區域
+curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=contain"
+
+# 瀏覽器訪問
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=contain
+```
+
+#### 4.4. 使用 `fit=inside`（默認行為，適合內部，保持寬高比）
+
+```bash
+# 默認行為，等同於不指定 fit
+curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=inside"
+
+# 瀏覽器訪問
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=inside
+```
+
+#### 4.5. 使用 `fit=outside`（適合外部，保持寬高比）
+
+```bash
+# 圖像會被縮放到至少滿足一個維度，可能超出指定尺寸
+curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=outside"
+
+# 瀏覽器訪問
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=outside
+```
+
+**fit 參數說明：**
+
+| fit 值 | 行為 | 是否保持寬高比 | 是否精確匹配尺寸 |
+|--------|------|----------------|------------------|
+| `inside` (默認) | 縮放到適合內部 | ✅ | ❌ |
+| `cover` | 裁剪以填充整個區域 | ✅ | ✅ (通過裁剪) |
+| `contain` | 完全包含在區域內 | ✅ | ❌ (可能有空白) |
+| `fill` | 拉伸到精確尺寸 | ❌ | ✅ |
+| `outside` | 至少滿足一個維度 | ✅ | ❌ (可能超出) |
 
 ### 5. 格式轉換
 

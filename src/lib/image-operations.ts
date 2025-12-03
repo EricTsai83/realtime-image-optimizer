@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
 
-type OperationKey = "width" | "height" | "format" | "quality";
+type OperationKey = "width" | "height" | "format" | "quality" | "fit";
 
 type OperationMap = Readonly<Record<string, string>>;
 
@@ -24,18 +24,33 @@ const DEFAULT_PLACEHOLDER_FORMAT = "webp";
 
 /**
  * Extracts supported IPX operations from query parameters.
+ *
+ * Note: When both width and height are specified, we use 'resize' operation
+ * instead of separate 'width' and 'height' operations. This is because:
+ * 1. IPX's width/height handlers don't support the 'fit' parameter
+ * 2. Only the 'resize' handler supports 'fit' parameter
+ * 3. When 'fit' is not specified, we default to 'inside' to maintain aspect ratio
  */
 function buildOperations(searchParams: URLSearchParams): OperationMap {
   const operations: Record<string, string> = {};
 
   const width = searchParams.get("w");
-  if (width) {
-    operations.width = width;
-  }
-
   const height = searchParams.get("h");
-  if (height) {
-    operations.height = height;
+  const fit = searchParams.get("fit");
+
+  // When both width and height are specified, use 'resize' operation
+  if (width && height) {
+    operations.resize = `${width}x${height}`;
+    // Default to 'inside' to maintain aspect ratio if fit is not specified
+    operations.fit = fit ?? "inside";
+  } else {
+    // Use separate width/height operations when only one dimension is specified
+    if (width) {
+      operations.width = width;
+    }
+    if (height) {
+      operations.height = height;
+    }
   }
 
   const format = searchParams.get("format");
@@ -56,7 +71,8 @@ function hasOperationParams(searchParams: URLSearchParams): boolean {
     searchParams.has("w") ||
     searchParams.has("h") ||
     searchParams.has("format") ||
-    searchParams.has("q")
+    searchParams.has("q") ||
+    searchParams.has("fit")
   );
 }
 

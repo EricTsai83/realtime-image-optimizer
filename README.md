@@ -57,6 +57,9 @@ The server will start on `http://localhost:3001` by default.
 | `h` | Image height in pixels | `h=600` |
 | `format` | Output format (webp, jpeg, png, etc.) | `format=webp` |
 | `q` | Quality (1-100, for lossy formats) | `q=85` |
+| `fit` | Resize fit mode (cover, contain, fill, inside, outside) | `fit=cover` |
+
+**注意：** 當同時設置 `w` 和 `h` 時，默認行為是保持寬高比（`fit=inside`），圖像會被縮放到適合指定尺寸，但不會精確匹配。如果需要精確尺寸，請使用 `fit=fill`（會拉伸圖像）或 `fit=cover`（會裁剪圖像以填充整個區域）。
 
 ### Example Requests
 
@@ -73,6 +76,21 @@ http://localhost:3001/optimize/_/demo-image.jpg?w=800
 **With multiple operations:**
 ```
 http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85
+```
+
+**With width and height (maintains aspect ratio by default):**
+```
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600
+```
+
+**With exact dimensions (using fit=fill to stretch):**
+```
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill
+```
+
+**With cover fit (crops to fill exact dimensions):**
+```
+http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover
 ```
 
 **Remote image via alias:**
