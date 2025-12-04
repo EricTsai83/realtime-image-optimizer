@@ -5,13 +5,19 @@ import {
   ipxHttpStorage,
 } from "ipx";
 
+/**
+ * Creates IPX instance configured for HTTP-only storage.
+ * Accepts images from any domain by default.
+ *
+ * Note: `storage` is required by IPX, so we use an empty FS storage
+ * pointing to a non-existent directory. All actual requests will use httpStorage.
+ */
 const ipx = createIPX({
-  alias: {
-    uploadthing: "https://0tdnyn6tr7.ufs.sh/f",
-  },
-  storage: ipxFSStorage({ dir: "./static" }),
+  // Required by IPX - using empty storage since we only use HTTP sources
+  storage: ipxFSStorage({ dir: "./.ipx-empty" }),
   httpStorage: ipxHttpStorage({
-    domains: ["0tdnyn6tr7.ufs.sh/f"],
+    // Allow all domains - can be restricted later via admin panel
+    allowAllDomains: true,
   }),
 });
 
