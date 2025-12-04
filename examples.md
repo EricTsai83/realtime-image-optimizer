@@ -18,30 +18,30 @@
 
 ```bash
 # 本地文件
-curl http://localhost:3001/optimize/_/demo-image.jpg
+curl http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4
 ```
 
 ### 2. 僅調整寬度
 
 ```bash
 # 寬度 800px，保持寬高比
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800
 ```
 
 ### 3. 僅調整高度
 
 ```bash
 # 高度 600px，保持寬高比
-curl "http://localhost:3001/optimize/_/demo-image.jpg?h=600"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?h=600"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?h=600
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?h=600
 ```
 
 ### 4. 同時調整寬度和高度
@@ -50,10 +50,10 @@ http://localhost:3001/optimize/_/demo-image.jpg?h=600
 
 ```bash
 # 寬度 800px，高度 600px（保持寬高比，可能不會精確匹配）
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600
 ```
 
 **如果需要精確尺寸，請使用 `fit` 參數：**
@@ -62,50 +62,50 @@ http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600
 
 ```bash
 # 強制拉伸到 800x600，不保持寬高比
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=fill"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=fill
 ```
 
 #### 4.2. 使用 `fit=cover`（裁剪以填充整個區域，保持寬高比）
 
 ```bash
 # 裁剪圖像以填充 800x600，保持寬高比
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=cover"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=cover
 ```
 
 #### 4.3. 使用 `fit=contain`（完全包含在區域內，保持寬高比）
 
 ```bash
 # 圖像完全包含在 800x600 內，保持寬高比，可能有空白區域
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=contain"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=contain"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=contain
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=contain
 ```
 
 #### 4.4. 使用 `fit=inside`（默認行為，適合內部，保持寬高比）
 
 ```bash
 # 默認行為，等同於不指定 fit
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=inside"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=inside"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=inside
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=inside
 ```
 
 #### 4.5. 使用 `fit=outside`（適合外部，保持寬高比）
 
 ```bash
 # 圖像會被縮放到至少滿足一個維度，可能超出指定尺寸
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=outside"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=outside"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=outside
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&h=600&fit=outside
 ```
 
 **fit 參數說明：**
@@ -122,39 +122,39 @@ http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=outside
 
 ```bash
 # 轉換為 WebP 格式
-curl "http://localhost:3001/optimize/_/demo-image.jpg?format=webp"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=webp"
 
 # 轉換為 JPEG 格式
-curl "http://localhost:3001/optimize/_/demo-image.jpg?format=jpeg"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=jpeg"
 
 # 轉換為 PNG 格式
-curl "http://localhost:3001/optimize/_/demo-image.jpg?format=png"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=png"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?format=webp
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=webp
 ```
 
 ### 6. 調整品質（僅適用於有損格式）
 
 ```bash
 # 品質 85（1-100）
-curl "http://localhost:3001/optimize/_/demo-image.jpg?q=85"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?q=85"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?q=85
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?q=85
 ```
 
 ### 7. 組合操作
 
 ```bash
 # 寬度 800px，WebP 格式，品質 85
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp&q=85"
 
 # 寬度 1200px，高度 800px，JPEG 格式，品質 90
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=1200&h=800&format=jpeg&q=90"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=1200&h=800&format=jpeg&q=90"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp&q=85
 ```
 
 ---
@@ -165,25 +165,25 @@ http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85
 
 ```bash
 # 使用默認參數（寬度 24px，品質 35，模糊強度 35）
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur"
 
 # 瀏覽器訪問（可直接用於 <img> 標籤）
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur
 ```
 
 **HTML 使用：**
 ```html
-<img src="http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur" />
+<img src="http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur" />
 ```
 
 ### 2. 自定義模糊占位符參數
 
 ```bash
 # 自定義寬度 300px，品質 40，模糊強度 30
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=300&pq=40&pb=10"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&pw=300&pq=40&pb=10"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=30
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&pw=32&pq=40&pb=30
 ```
 
 **參數說明：**
@@ -195,20 +195,20 @@ http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=
 
 ```bash
 # 占位符 + 優化後的圖像 URL（寬度 800px，WebP 格式）
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&w=800&format=webp"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&w=800&format=webp"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&w=800&format=webp
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&w=800&format=webp
 ```
 
 ### 4. 獲取 JSON 格式響應
 
 ```bash
 # 返回 JSON，包含占位符 data URL 和優化圖像 URL
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&format=json"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&format=json
 ```
 
 **響應格式：**
@@ -216,7 +216,7 @@ http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json
 {
   "type": "blur",
   "placeholderDataUrl": "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=",
-  "optimizedImageUrl": "http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp",
+  "optimizedImageUrl": "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp",
   "placeholderWidth": 24,
   "placeholderQuality": 35,
   "blurSigma": 35
@@ -227,27 +227,27 @@ http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json
 
 ```bash
 # 自定義參數並返回 JSON
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=30&w=800&format=json"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&pw=32&pq=40&pb=30&w=800&format=json"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=30&w=800&format=json
+http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&pw=32&pq=40&pb=30&w=800&format=json
 ```
 
 ---
 
 ## 不同圖像來源
 
-### 1. 本地文件系統
+### 1. 遠程圖像（Unsplash 範例）
 
 ```bash
 # 基本用法
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800"
 
 # 帶操作參數
-curl "http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp&q=85"
 ```
 
-**說明：** 圖像必須位於 `./static` 目錄中。
+**說明：** 遠程域名必須在 `src/lib/ipx-client.ts` 的 `httpStorage` 配置中允許。
 
 ### 2. 使用別名（Alias）
 
@@ -264,20 +264,20 @@ http://localhost:3001/optimize/uploadthing/iphfglNoD16WBC350MsUvAIJmH1oCEB0Sjclz
 
 **說明：** 別名在 `src/lib/ipx-client.ts` 中配置。
 
-### 3. 直接 HTTP URL
+### 3. 直接 HTTP URL（URL 編碼說明）
 
 ```bash
 # URL 需要先進行編碼
-# 原始 URL: https://example.com/image.jpg
-# 編碼後: https%3A%2F%2Fexample.com%2Fimage.jpg
+# 原始 URL: https://images.unsplash.com/photo-1506905925346-21bda4d32df4
+# 編碼後: https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4
 
-curl "http://localhost:3001/optimize/https%3A%2F%2Fexample.com%2Fimage.jpg?w=800&format=webp"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp"
 
 # 帶模糊占位符
-curl "http://localhost:3001/optimize/https%3A%2F%2Fexample.com%2Fimage.jpg?placeholder=blur&w=800"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&w=800"
 
 # 瀏覽器訪問（瀏覽器會自動編碼）
-http://localhost:3001/optimize/https://example.com/image.jpg?w=800&format=webp
+http://localhost:3001/optimize/https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&format=webp
 ```
 
 **說明：** 遠程域名必須在 `src/lib/ipx-client.ts` 的 `httpStorage` 配置中允許。
@@ -286,13 +286,13 @@ http://localhost:3001/optimize/https://example.com/image.jpg?w=800&format=webp
 
 ```bash
 # 使用 IPX 操作前綴格式
-curl "http://localhost:3001/optimize/w_800/demo-image.jpg"
+curl "http://localhost:3001/optimize/w_800/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4"
 
 # 組合操作
-curl "http://localhost:3001/optimize/w_800,h_600,format_webp/demo-image.jpg"
+curl "http://localhost:3001/optimize/w_800,h_600,format_webp/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4"
 
 # 瀏覽器訪問
-http://localhost:3001/optimize/w_800/demo-image.jpg
+http://localhost:3001/optimize/w_800/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4
 ```
 
 ---
@@ -306,7 +306,7 @@ http://localhost:3001/optimize/w_800/demo-image.jpg
 ```javascript
 // 簡單的圖像優化 URL
 const optimizedImageUrl = 
-  'http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85';
+  'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp&q=85';
 
 // 在 HTML 中使用
 const img = document.createElement('img');
@@ -319,7 +319,7 @@ document.body.appendChild(img);
 ```javascript
 // 獲取模糊占位符圖像
 const placeholderUrl = 
-  'http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur';
+  'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur';
 
 const img = document.createElement('img');
 img.src = placeholderUrl;
@@ -363,7 +363,7 @@ async function loadImageWithPlaceholder(imagePath) {
 }
 
 // 使用
-loadImageWithPlaceholder('demo-image.jpg');
+loadImageWithPlaceholder('https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4');
 ```
 
 #### 錯誤處理
@@ -570,22 +570,22 @@ function App() {
     <div>
       <h2>基本優化圖像</h2>
       <OptimizedImage
-        src="demo-image.jpg"
+        src="https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4"
         width={800}
         format="webp"
         quality={85}
-        alt="Demo Image"
+        alt="Unsplash Mountain Image"
       />
 
       <h2>模糊占位符圖像</h2>
       <BlurPlaceholderImage
-        src="demo-image.jpg"
+        src="https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4"
         width={1200}
         format="webp"
         placeholderWidth={32}
         placeholderQuality={40}
         blurSigma={30}
-        alt="Demo Image with Blur Placeholder"
+        alt="Unsplash Mountain Image with Blur Placeholder"
       />
 
       <h2>遠程圖像（別名）</h2>
@@ -702,7 +702,7 @@ curl "http://localhost:3001/optimize/_/non-existent.jpg?w=800"
 
 ```bash
 # 品質超出範圍（應該在 1-100 之間）
-curl "http://localhost:3001/optimize/_/demo-image.jpg?q=150"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?q=150"
 ```
 
 **處理：** IPX 會自動處理或返回錯誤。
@@ -767,7 +767,7 @@ async function optimizeImage(
 }
 
 // 使用
-const result = await optimizeImage('demo-image.jpg', { width: 800 });
+const result = await optimizeImage('https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4', { width: 800 });
 
 if (result.ok) {
   console.log('Optimized image URL:', result.url);
@@ -785,9 +785,9 @@ if (result.ok) {
 ```typescript
 // 為不同設備生成不同尺寸的圖像
 const responsiveImages = {
-  mobile: 'http://localhost:3001/optimize/_/demo-image.jpg?w=400&format=webp',
-  tablet: 'http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp',
-  desktop: 'http://localhost:3001/optimize/_/demo-image.jpg?w=1200&format=webp',
+  mobile: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=400&format=webp',
+  tablet: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp',
+  desktop: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=1200&format=webp',
 };
 ```
 
@@ -796,8 +796,8 @@ const responsiveImages = {
 ```typescript
 // 縮略圖 + 完整圖像
 const galleryImage = {
-  thumbnail: 'http://localhost:3001/optimize/_/demo-image.jpg?w=200&h=200&format=webp&q=75',
-  full: 'http://localhost:3001/optimize/_/demo-image.jpg?w=1920&format=webp&q=90',
+  thumbnail: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=200&h=200&format=webp&q=75',
+  full: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=1920&format=webp&q=90',
 };
 ```
 
@@ -806,9 +806,9 @@ const galleryImage = {
 ```typescript
 // 模糊占位符 → 低品質預覽 → 完整圖像
 const progressiveLoad = {
-  placeholder: 'http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur',
-  preview: 'http://localhost:3001/optimize/_/demo-image.jpg?w=400&format=webp&q=50',
-  full: 'http://localhost:3001/optimize/_/demo-image.jpg?w=1200&format=webp&q=90',
+  placeholder: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur',
+  preview: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=400&format=webp&q=50',
+  full: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=1200&format=webp&q=90',
 };
 ```
 
@@ -817,9 +817,9 @@ const progressiveLoad = {
 ```typescript
 // 根據瀏覽器支持選擇格式
 const formatAdaptive = {
-  webp: 'http://localhost:3001/optimize/_/demo-image.jpg?format=webp',
-  jpeg: 'http://localhost:3001/optimize/_/demo-image.jpg?format=jpeg',
-  png: 'http://localhost:3001/optimize/_/demo-image.jpg?format=png',
+  webp: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=webp',
+  jpeg: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=jpeg',
+  png: 'http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=png',
 };
 ```
 
@@ -831,29 +831,29 @@ const formatAdaptive = {
 
 ```bash
 # 測試本地圖像
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4"
 
 # 測試寬度調整
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg?w=800"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800"
 
 # 測試格式轉換
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg?format=webp"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?format=webp"
 
 # 測試組合操作
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?w=800&format=webp&q=85"
 ```
 
 ### 模糊占位符測試
 
 ```bash
 # 測試默認占位符
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur"
 
 # 測試自定義占位符
-curl -I "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=30"
+curl -I "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&pw=32&pq=40&pb=30"
 
 # 測試 JSON 響應
-curl "http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?placeholder=blur&format=json"
 ```
 
 ### 錯誤測試
@@ -866,7 +866,7 @@ curl "http://localhost:3001/optimize/"
 curl "http://localhost:3001/optimize/_/non-existent.jpg"
 
 # 測試無效參數
-curl "http://localhost:3001/optimize/_/demo-image.jpg?q=invalid"
+curl "http://localhost:3001/optimize/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1506905925346-21bda4d32df4?q=invalid"
 ```
 
 ---

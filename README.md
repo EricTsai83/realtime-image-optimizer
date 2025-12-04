@@ -58,247 +58,54 @@ The server will start on `http://localhost:3001` by default.
 | `format` | Output format (webp, jpeg, png, etc.) | `format=webp` |
 | `q` | Quality (1-100, for lossy formats) | `q=85` |
 | `fit` | Resize fit mode (cover, contain, fill, inside, outside) | `fit=cover` |
+| `placeholder` | Placeholder type (`blur`) | `placeholder=blur` |
 
-**注意：** 當同時設置 `w` 和 `h` 時，默認行為是保持寬高比（`fit=inside`），圖像會被縮放到適合指定尺寸，但不會精確匹配。如果需要精確尺寸，請使用 `fit=fill`（會拉伸圖像）或 `fit=cover`（會裁剪圖像以填充整個區域）。
+### Quick Examples
 
-### Example Requests
-
-**Local file:**
-```
-http://localhost:3001/optimize/_/demo-image.jpg
-```
-
-**With width constraint:**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?w=800
-```
-
-**With multiple operations:**
-```
+```bash
+# 基本圖像優化
 http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp&q=85
-```
 
-**With width and height (maintains aspect ratio by default):**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600
-```
-
-**With exact dimensions (using fit=fill to stretch):**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=fill
-```
-
-**With cover fit (crops to fill exact dimensions):**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?w=800&h=600&fit=cover
-```
-
-**Remote image via alias:**
-```
-http://localhost:3001/optimize/uploadthing/iphfglNoD16WBC350MsUvAIJmH1oCEB0SjclzGgNipWVZb3k?w=800&format=webp
-```
-
-**Direct HTTP URL:**
-```
-http://localhost:3001/optimize/w_800/https://example.com/image.jpg
-```
-
-## Blur Placeholder Flow
-
-The blur placeholder feature enables progressive image loading by generating a tiny, heavily blurred preview image that can be displayed immediately while the full-resolution image loads in the background.
-
-### Request Format
-
-Add `placeholder=blur` to any optimization request:
-
-```
+# 模糊占位符
 http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur
+
+# 遠程圖像（URL 編碼）
+http://localhost:3001/optimize/https%3A%2F%2Fexample.com%2Fimage.jpg?w=800
 ```
 
-### Optional Tuning Parameters
-
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `pw` | `24` | Placeholder width in pixels |
-| `pq` | `35` | Placeholder quality (1-100) |
-| `pb` | `35` | Blur sigma intensity |
-| `format` | `image` | Response format: `image` (default) or `json` |
-
-**Example - Get blur image directly (default behavior):**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur
-```
-
-**Example with custom parameters:**
-```
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&pw=32&pq=40&pb=30
-```
-
-**Example with third-party image (via alias):**
-```
-http://localhost:3001/optimize/uploadthing/iphfglNoD16WBC350MsUvAIJmH1oCEB0SjclzGgNipWVZb3k?w=800&format=webp&placeholder=blur
-```
-
-**Example with third-party image (direct URL - URL encode first):**
-```
-http://localhost:3001/optimize/https%3A%2F%2Fexample.com%2Fimage.jpg?placeholder=blur&w=800
-```
-
-### Response Format
-
-**By default**, when `placeholder=blur` is included, the API returns the blurred image directly (binary image data). This allows you to use it directly in an `<img>` tag:
-
-```html
-<img src="http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur" />
-```
-
-**To get JSON response instead**, add `format=json`:
-
-```
-http://localhost:3001/optimize/_/demo-image.jpg?placeholder=blur&format=json
-```
-
-This returns:
-```json
-{
-  "type": "blur",
-  "placeholderDataUrl": "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/vuUAAA=",
-  "optimizedImageUrl": "http://localhost:3001/optimize/_/demo-image.jpg?w=800&format=webp",
-  "placeholderWidth": 24,
-  "placeholderQuality": 35,
-  "blurSigma": 35
-}
-```
-
-### Frontend Integration
-
-Here's how to use the blur placeholder in your web application:
-
-```javascript
-async function loadImageWithPlaceholder(imageUrl) {
-  // Request blur placeholder
-  const placeholderResponse = await fetch(
-    `${imageUrl}?placeholder=blur&w=800&format=webp`
-  );
-  const { placeholderDataUrl, optimizedImageUrl } = await placeholderResponse.json();
-
-  // Display placeholder immediately
-  const img = document.createElement('img');
-  img.src = placeholderDataUrl;
-  img.style.filter = 'blur(20px)';
-  img.style.transition = 'filter 0.3s';
-
-  // Load full image in background
-  const fullImage = new Image();
-  fullImage.onload = () => {
-    img.src = optimizedImageUrl;
-    img.style.filter = 'blur(0)';
-  };
-  fullImage.src = optimizedImageUrl;
-
-  return img;
-}
-```
-
-**React Example:**
-
-```tsx
-import { useState, useEffect } from 'react';
-
-function OptimizedImage({ src, width, ...props }) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [placeholder, setPlaceholder] = useState<string | null>(null);
-
-  useEffect(() => {
-    const loadImage = async () => {
-      const placeholderUrl = `${src}?placeholder=blur&w=${width}`;
-      const response = await fetch(placeholderUrl);
-      const { placeholderDataUrl, optimizedImageUrl } = await response.json();
-
-      setPlaceholder(placeholderDataUrl);
-
-      const img = new Image();
-      img.onload = () => setImageSrc(optimizedImageUrl);
-      img.src = optimizedImageUrl;
-    };
-
-    loadImage();
-  }, [src, width]);
-
-  if (!placeholder) return <div>Loading...</div>;
-
-  return (
-    <img
-      src={imageSrc || placeholder}
-      style={{
-        filter: imageSrc ? 'blur(0)' : 'blur(20px)',
-        transition: 'filter 0.3s',
-      }}
-      {...props}
-    />
-  );
-}
-```
+📖 **完整使用範例請參考 [examples.md](./examples.md)**，包含：
+- 所有參數組合範例
+- 模糊占位符詳細用法
+- 前端整合範例（Vanilla JS、React、Next.js）
+- 錯誤處理範例
 
 ## Error Handling
 
-The API returns appropriate HTTP status codes:
-
-- **200**: Success (image or JSON response)
-- **400**: Bad Request (missing image path or invalid parameters)
-- **500**: Internal Server Error (image processing failed)
-
-Error responses follow this format:
-
-```json
-{
-  "error": "Error message description"
-}
-```
-
-## Caching
-
-Optimized images include cache headers for efficient content delivery:
-
-```
-Cache-Control: public, max-age=60, stale-while-revalidate=60
-```
-
-This allows browsers and CDNs to cache images for 60 seconds, with an additional 60-second grace period for stale content while fresh content is being fetched.
+| Status Code | Description |
+|-------------|-------------|
+| **200** | Success |
+| **400** | Bad Request (missing path or invalid parameters) |
+| **500** | Internal Server Error (processing failed) |
 
 ## Configuration
-
-### Image Storage
 
 Storage backends are configured in `src/lib/ipx-client.ts`:
 
 - **Local Filesystem**: Images in the `./static` directory
 - **HTTP Storage**: Remote images from configured domains
-- **Aliases**: Short names for common image sources (e.g., `uploadthing`)
+- **Aliases**: Short names for common image sources
 
-To customize storage or add new aliases, modify the IPX configuration in `src/lib/ipx-client.ts`.
-
-## Development
-
-### Project Structure
+## Project Structure
 
 ```
 src/
-  ├── index.ts              # Application entry point
+  ├── index.ts               # Application entry point
   ├── routes/
-  │   └── optimize.ts       # Image optimization route handler
+  │   └── optimize.ts        # Image optimization route handler
   └── lib/
       ├── ipx-client.ts      # IPX configuration and client
       └── image-operations.ts # Image operation utilities
 ```
-
-### Adding New Placeholder Types
-
-To add support for additional placeholder types (e.g., dominant color, SVG LQIP):
-
-1. Add placeholder type constants in `src/lib/image-operations.ts`
-2. Create a builder function similar to `buildBlurPlaceholderOperations`
-3. Add handling logic in `src/routes/optimize.ts`
 
 ## License
 
