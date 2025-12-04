@@ -3,7 +3,6 @@ import { ipx, ipxWebHandler } from "../lib/ipx-client";
 import {
   buildBlurPlaceholderOperations,
   buildOperations,
-  cloneToArrayBuffer,
   encodeDataUrl,
   ensureUint8Array,
   hasOperationParams,
@@ -42,12 +41,12 @@ function resolveContentType(format: string): string {
 }
 
 function removePlaceholderParamsFromUrl(url: URL): string {
-  const normalizedUrl = new URL(url.toString());
+  const normalizedUrl = new URL(url.href);
   for (const param of PLACEHOLDER_ONLY_PARAMS) {
     normalizedUrl.searchParams.delete(param);
   }
 
-  return normalizedUrl.toString();
+  return normalizedUrl.href;
 }
 
 function createOptimizeRouter(): Hono {
@@ -109,10 +108,12 @@ function createOptimizeRouter(): Hono {
         }
 
         // Default: Return the blurred image directly
-        const responseBody = cloneToArrayBuffer(placeholderData);
-        return c.body(responseBody, 200, {
-          "Content-Type": placeholderMimeType,
-          "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+        return new Response(placeholderData as Uint8Array<ArrayBuffer>, {
+          status: 200,
+          headers: {
+            "Content-Type": placeholderMimeType,
+            "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+          },
         });
       }
 
@@ -128,14 +129,16 @@ function createOptimizeRouter(): Hono {
       const operations = buildOperations(requestUrl.searchParams);
       const processedImage = await ipx(imagePath, operations).process();
       const imageData = ensureUint8Array(processedImage.data);
-      const responseBody = cloneToArrayBuffer(imageData);
       const contentType = resolveContentType(
         processedImage.format ?? operations.format ?? "webp",
       );
 
-      return c.body(responseBody, 200, {
-        "Content-Type": contentType,
-        "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+      return new Response(imageData as Uint8Array<ArrayBuffer>, {
+        status: 200,
+        headers: {
+          "Content-Type": contentType,
+          "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+        },
       });
     } catch (error) {
       console.error("Image processing error:", error);

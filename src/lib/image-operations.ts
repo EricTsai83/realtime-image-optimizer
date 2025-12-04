@@ -88,12 +88,6 @@ function ensureUint8Array(data: string | ArrayBuffer | Uint8Array): Uint8Array {
   return new Uint8Array(data);
 }
 
-function cloneToArrayBuffer(data: Uint8Array): ArrayBuffer {
-  const buffer = new ArrayBuffer(data.byteLength);
-  new Uint8Array(buffer).set(data);
-  return buffer;
-}
-
 /**
  * Builds IPX operations tailored for blur placeholders.
  */
@@ -132,7 +126,6 @@ export {
   buildBlurPlaceholderOperations,
   hasOperationParams,
   ensureUint8Array,
-  cloneToArrayBuffer,
   encodeDataUrl,
   PLACEHOLDER_PARAM,
   PLACEHOLDER_TYPE_BLUR,
