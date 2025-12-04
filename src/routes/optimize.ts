@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { ipx, ipxWebHandler } from "../lib/ipx-client";
+import { ipx } from "../lib/ipx-client";
 import {
   buildBlurPlaceholderOperations,
   buildOperations,
@@ -21,6 +21,16 @@ const PLACEHOLDER_ONLY_PARAMS: readonly string[] = [
   PLACEHOLDER_BLUR_PARAM,
 ];
 
+/**
+ * Restores double slashes in protocol prefixes that may have been
+ * collapsed by URL parsing (e.g., "https:/example.com" -> "https://example.com")
+ */
+function restoreProtocolSlashes(path: string): string {
+  // Match http:/ or https:/ followed by a non-slash character
+  // and restore the double slash
+  return path.replace(/^(https?:\/)([^/])/, "$1/$2");
+}
+
 function stripOptimizePrefix(pathname: string): string {
   if (!pathname.startsWith(OPTIMIZE_PREFIX)) {
     return "";
@@ -32,6 +42,14 @@ function stripOptimizePrefix(pathname: string): string {
   if (imagePath.startsWith("_/")) {
     imagePath = imagePath.slice(2);
   }
+
+  // Decode URL-encoded characters (e.g., https%3A%2F%2F -> https://)
+  // This is necessary because URL.pathname preserves percent-encoding
+  imagePath = decodeURIComponent(imagePath);
+
+  // Restore double slashes in protocol that may have been collapsed
+  // by URL parsing (e.g., "https:/example.com" -> "https://example.com")
+  imagePath = restoreProtocolSlashes(imagePath);
 
   return imagePath;
 }
@@ -118,12 +136,19 @@ function createOptimizeRouter(): Hono {
       }
 
       if (!hasOperationParams(requestUrl.searchParams)) {
-        const passthroughUrl = new URL(requestUrl.toString());
-        passthroughUrl.pathname = requestUrl.pathname.replace(
-          /^\/optimize/,
-          "",
-        );
-        return ipxWebHandler(new Request(passthroughUrl));
+        // Even without operations, use ipx() directly to ensure proper URL handling
+        // The ipxWebHandler path had issues with protocol slashes being collapsed
+        const processedImage = await ipx(imagePath, {}).process();
+        const imageData = ensureUint8Array(processedImage.data);
+        const contentType = resolveContentType(processedImage.format ?? "webp");
+
+        return new Response(imageData as Uint8Array<ArrayBuffer>, {
+          status: 200,
+          headers: {
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=60, stale-while-revalidate=60",
+          },
+        });
       }
 
       const operations = buildOperations(requestUrl.searchParams);
