@@ -3,6 +3,9 @@
   "scripts": {
     "dev": "bun run --hot src/index.ts"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "hono": "^4.10.6",
