@@ -9,6 +9,6 @@
     "noUncheckedIndexedAccess": true,
     "types": ["bun-types"]
   },
-  "include": ["src/**/*", "api/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
